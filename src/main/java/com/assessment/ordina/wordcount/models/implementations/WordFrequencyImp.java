@@ -9,7 +9,7 @@ import java.util.Objects;
 public class WordFrequencyImp implements WordFrequency {
 
     @Getter
-    private String word;
+    private final String word;
     @Getter
     private int frequency;
 
@@ -23,19 +23,22 @@ public class WordFrequencyImp implements WordFrequency {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o instanceof WordFrequencyImp that) {
-            return word.equals(that.word);
-        } else if (o instanceof String that) {
-            return word.equals(that);
-        } else {
-            return false;
-        }
+    public int hashCode() {
+        return Objects.hash(word, frequency);
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(word, frequency);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof WordFrequencyImp that)) return false;
+        return frequency == that.frequency && word.equals(that.word);
+    }
+
+    @Override
+    public String toString() {
+        return "WordFrequencyImp{" +
+                "word='" + word + '\'' +
+                ", frequency=" + frequency +
+                '}';
     }
 }
