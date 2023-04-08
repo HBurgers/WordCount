@@ -2,7 +2,6 @@ package com.assessment.ordina.wordcount.models.implementations;
 
 import com.assessment.ordina.wordcount.models.WordFrequency;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Objects;
 
