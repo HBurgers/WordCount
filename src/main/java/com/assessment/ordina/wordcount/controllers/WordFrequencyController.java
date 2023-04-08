@@ -20,7 +20,7 @@ public class WordFrequencyController {
     }
 
     @GetMapping("highest/frequency")
-    public int getHighestFrequency(@RequestParam String text) {
+    public int getHighestFrequency(@RequestParam final String text) {
         return wordFrequencyAnalyzer.calculateHighestFrequency(text);
     }
 
@@ -30,7 +30,7 @@ public class WordFrequencyController {
     }
 
     @GetMapping("nth/frequency")
-    public WordFrequency[] getHighestFrequency(@RequestParam final String text, @RequestParam final int n) {
+    public WordFrequency[] getHighestNFrequentWords(@RequestParam final String text, @RequestParam final int n) {
         return wordFrequencyAnalyzer.calculateMostFrequentNWords(text, n);
     }
 }
