@@ -1,16 +1,13 @@
 package com.assessment.ordina.wordcount.unit;
 
-import com.assessment.ordina.wordcount.models.WordFrequency;
-import com.assessment.ordina.wordcount.models.implementations.WordFrequencyImp;
 import com.assessment.ordina.wordcount.services.WordFrequencyAnalyzer;
-import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class WordFrequencyAnalyzerTests {
+public class CalculateFrequencyForWordTests {
     final String DEFAULT_TEXT = "The sun shines over the lake";
     final String MIX_CAPS_TEXT = "The sun shines over tHE lake near THE shore";
     final String MIX_SEPARATORS_TEXT = "The sun\nshines123over@!#$the\tlake";
@@ -21,53 +18,10 @@ public class WordFrequencyAnalyzerTests {
     private final WordFrequencyAnalyzer wordFrequencyAnalyzer;
 
     @Autowired
-    public WordFrequencyAnalyzerTests(WordFrequencyAnalyzer wordFrequencyAnalyzer) {
+    public CalculateFrequencyForWordTests(WordFrequencyAnalyzer wordFrequencyAnalyzer) {
         this.wordFrequencyAnalyzer = wordFrequencyAnalyzer;
     }
 
-
-    //calculateHighestFrequencyTest
-    @Test
-    public void calculateHighestFrequencyTest_defaultCase() {
-        Assertions.assertEquals(2, wordFrequencyAnalyzer.calculateHighestFrequency(DEFAULT_TEXT));
-    }
-
-    @Test
-    public void calculateHighestFrequencyTest_mixCapsCase() {
-        Assertions.assertEquals(3, wordFrequencyAnalyzer.calculateHighestFrequency(MIX_CAPS_TEXT));
-    }
-
-    @Test
-    public void calculateHighestFrequencyTest_mixSeparatorsCase() {
-        Assertions.assertEquals(2, wordFrequencyAnalyzer.calculateHighestFrequency(MIX_SEPARATORS_TEXT));
-    }
-
-    @Test
-    public void calculateHighestFrequencyTest_leadingSeparatorsCase() {
-        Assertions.assertEquals(2, wordFrequencyAnalyzer.calculateHighestFrequency(DEFAULT_TEXT_LEADING_SEPARATORS));
-    }
-
-    @Test
-    public void calculateHighestFrequencyTest_trailingSeparatorsCase() {
-        Assertions.assertEquals(2, wordFrequencyAnalyzer.calculateHighestFrequency(DEFAULT_TEXT_TRAILING_SEPARATORS));
-    }
-
-    @Test
-    public void calculateHighestFrequencyTest_randomSeparatorsCase() {
-        Assertions.assertEquals(2, wordFrequencyAnalyzer.calculateHighestFrequency(DEFAULT_TEXT_RANDOM_SEPARATORS));
-    }
-
-    @Test
-    public void calculateHighestFrequencyTest_nullStringCase() {
-        Assertions.assertEquals(0, wordFrequencyAnalyzer.calculateHighestFrequency(null));
-    }
-
-    @Test
-    public void calculateHighestFrequencyTest_emptyStringCase() {
-        Assertions.assertEquals(0, wordFrequencyAnalyzer.calculateHighestFrequency(""));
-    }
-
-    //calculateFrequencyForWordTests
     @Test
     public void calculateFrequencyForWordTest_defaultCase() {
         Assertions.assertEquals(2, wordFrequencyAnalyzer.calculateFrequencyForWord(DEFAULT_TEXT, "The"));
@@ -125,62 +79,35 @@ public class WordFrequencyAnalyzerTests {
     @Test
     public void calculateFrequencyForWordTest_emptyStringCase() {
         Assertions.assertEquals(0, wordFrequencyAnalyzer.calculateFrequencyForWord("", "The"));
-        Assertions.assertEquals(0, wordFrequencyAnalyzer.calculateFrequencyForWord(DEFAULT_TEXT, ""));
-    }
-
-    //calculateMostFrequentNWords
-    @Test
-    public void calculateMostFrequentNWordsTest_defaultCase() {
-        WordFrequency[] expectedResult = new WordFrequency[] {
-                new WordFrequencyImp("the", 2),
-                new WordFrequencyImp("lake", 1),
-                new WordFrequencyImp("over", 1)
-        };
-
-
-        WordFrequency[] result = wordFrequencyAnalyzer.calculateMostFrequentNWords(DEFAULT_TEXT, 3);
-
-        Assertions.assertTrue(ArrayUtils.isNotEmpty(result));
-        Assertions.assertEquals(3, result.length);
-
-        Assertions.assertTrue(ArrayUtils.isEquals(expectedResult, result));
+        Assertions.assertEquals(0, wordFrequencyAnalyzer.calculateFrequencyForWord("123345", "The"));
+        Assertions.assertEquals(0, wordFrequencyAnalyzer.calculateFrequencyForWord("!@#$", "The"));
+        Assertions.assertEquals(0, wordFrequencyAnalyzer.calculateFrequencyForWord(MIX_SEPARATORS_TEXT, ""));
+        Assertions.assertEquals(0, wordFrequencyAnalyzer.calculateFrequencyForWord(MIX_SEPARATORS_TEXT, "!@#$"));
+        Assertions.assertEquals(0, wordFrequencyAnalyzer.calculateFrequencyForWord(MIX_SEPARATORS_TEXT, "12343"));
     }
 
     @Test
-    public void calculateMostFrequentNWordsTest_nLargerThanLengthCase() {
-        WordFrequency[] expectedResult = new WordFrequency[] {
-                new WordFrequencyImp("the", 2),
-                new WordFrequencyImp("lake", 1),
-                new WordFrequencyImp("over", 1),
-                new WordFrequencyImp("shines", 1),
-                new WordFrequencyImp("sun", 1)
-        };
-
-        WordFrequency[] result = wordFrequencyAnalyzer.calculateMostFrequentNWords(DEFAULT_TEXT, 10);
-
-        Assertions.assertTrue(ArrayUtils.isNotEmpty(result));
-        Assertions.assertEquals(5, result.length);
-
-        Assertions.assertTrue(ArrayUtils.isEquals(expectedResult, result));
+    public void calculateFrequencyForWordTest_multipleWordsCase() {
+        Assertions.assertEquals(0, wordFrequencyAnalyzer.calculateFrequencyForWord(MIX_SEPARATORS_TEXT, "The sun"));
+        Assertions.assertEquals(0, wordFrequencyAnalyzer.calculateFrequencyForWord(MIX_SEPARATORS_TEXT, "The123sun"));
+        Assertions.assertEquals(0, wordFrequencyAnalyzer.calculateFrequencyForWord(MIX_SEPARATORS_TEXT, "The\nsun"));
     }
 
     @Test
-    public void calculateMostFrequentNWordsTest_zeroNCase() {
-        Assertions.assertTrue(ArrayUtils.isEmpty(wordFrequencyAnalyzer.calculateMostFrequentNWords(DEFAULT_TEXT, 0)));
+    public void calculateFrequencyForWordTest_wordLeadingSeparatorsCase() {
+        Assertions.assertEquals(2, wordFrequencyAnalyzer.calculateFrequencyForWord(MIX_SEPARATORS_TEXT, " The"));
+        Assertions.assertEquals(2, wordFrequencyAnalyzer.calculateFrequencyForWord(MIX_SEPARATORS_TEXT, "\tThe"));
+        Assertions.assertEquals(2, wordFrequencyAnalyzer.calculateFrequencyForWord(MIX_SEPARATORS_TEXT, "\nThe"));
+        Assertions.assertEquals(2, wordFrequencyAnalyzer.calculateFrequencyForWord(MIX_SEPARATORS_TEXT, "@The"));
+        Assertions.assertEquals(2, wordFrequencyAnalyzer.calculateFrequencyForWord(MIX_SEPARATORS_TEXT, "12345The"));
     }
 
     @Test
-    public void calculateMostFrequentNWordsTest_negativeNCase() {
-        Assertions.assertTrue(ArrayUtils.isEmpty(wordFrequencyAnalyzer.calculateMostFrequentNWords(DEFAULT_TEXT, -1)));
-    }
-
-    @Test
-    public void calculateMostFrequentNWordsTest_nullStringCase() {
-        Assertions.assertTrue(ArrayUtils.isEmpty(wordFrequencyAnalyzer.calculateMostFrequentNWords(null, 3)));
-    }
-
-    @Test
-    public void calculateMostFrequentNWordsTest_emptyStringCase() {
-        Assertions.assertTrue(ArrayUtils.isEmpty(wordFrequencyAnalyzer.calculateMostFrequentNWords("", 3)));
+    public void calculateFrequencyForWordTest_wordTrailingSeparatorsCase() {
+        Assertions.assertEquals(2, wordFrequencyAnalyzer.calculateFrequencyForWord(MIX_SEPARATORS_TEXT, "The "));
+        Assertions.assertEquals(2, wordFrequencyAnalyzer.calculateFrequencyForWord(MIX_SEPARATORS_TEXT, "The\t"));
+        Assertions.assertEquals(2, wordFrequencyAnalyzer.calculateFrequencyForWord(MIX_SEPARATORS_TEXT, "The\n"));
+        Assertions.assertEquals(2, wordFrequencyAnalyzer.calculateFrequencyForWord(MIX_SEPARATORS_TEXT, "The!@#"));
+        Assertions.assertEquals(2, wordFrequencyAnalyzer.calculateFrequencyForWord(MIX_SEPARATORS_TEXT, "The12345"));
     }
 }

@@ -35,7 +35,7 @@ public class WordFrequencyAnalyzerService implements WordFrequencyAnalyzer {
     }
 
     @Override
-    public int calculateFrequencyForWord(final String text, final String word) {
+    public int calculateFrequencyForWord(final String text, String word) {
         log.debug(String.format("Running calculateFrequencyForWord with the text: %s and the word: %s", text, word));
 
         if (StringUtils.isBlank(text) || StringUtils.isBlank(word)) {
@@ -44,6 +44,19 @@ public class WordFrequencyAnalyzerService implements WordFrequencyAnalyzer {
 
             return 0;
         }
+
+        List<WordFrequency> wordAsList = toSortedWordFrequencyList(word);
+        if (wordAsList.isEmpty()) {
+            //Word consisted of non-alphabetic characters. Is thus same as blank.
+            return 0;
+        }
+
+        if (wordAsList.size() > 1) {
+            //Word consists of more than one word. For now return as not found. Maybe add additional implementation for list of words.
+            return 0;
+        }
+
+        word = wordAsList.get(0).getWord();
 
         final WordFrequencyList frequencyList = new WordFrequencyList(toSortedWordFrequencyList(text));
 
@@ -98,5 +111,4 @@ public class WordFrequencyAnalyzerService implements WordFrequencyAnalyzer {
 
         return wordFrequencyList.stream().limit(n).toArray(WordFrequency[]::new);
     }
-
 }
