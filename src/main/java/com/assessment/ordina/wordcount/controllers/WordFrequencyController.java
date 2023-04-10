@@ -49,7 +49,8 @@ public class WordFrequencyController {
     @Operation(
             summary = "Returns the n most frequent words in the text provided.",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "A successful response containing n most frequent words")}
+                    @ApiResponse(responseCode = "200", description = "A successful response containing n most frequent words")
+            }
     )
     public WordFrequency[] getHighestNFrequentWords(@RequestParam final String text, @RequestParam final int n) {
         return wordFrequencyAnalyzer.calculateMostFrequentNWords(text, n);
