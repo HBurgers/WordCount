@@ -5,8 +5,26 @@
 <p> This is a word count assessment program. <br>
 The goal of this program is to determine the frequency that words appear in  the given text. </p>
 
+### Ticket Tracking Standards
+<p>For the purpose of planning, tracking and version control of work, we are using Jira and Github. The following standards need to be kept by when making any changes:</p>
 
-## Technologies and Frameworks
+1) Any work needs a sized Jira ticket.
+2) Any work needs to be done in a dedicated branch in Github.
+3) Branches in Github needs to be named according to the following rules
+   1) type/ticketNumber description
+      1) Type describes the type of work that needs to be done. Examples are feature and bugfix
+      2) TicketNumber is the ticket number in Jira. For example, OA-1
+      3) Description is the description of what is being done in that branch.
+   2) Example of a correctly named branches are: "feature/OA-1 Implement integration tests" and "bugfix/OA-3 Fix NullpointerException in controller"
+4) When creating a PR:
+   1) Provide screenshots as proof of work, where possible
+   2) Add a link to the ticket in the description
+   3) You will need a review and approval from a code owner before you can merge any changes.
+5) After creating a PR, place a link to the PR in the related ticket in Jira.
+6) Add screenshots as proof of work in the Jira ticket.
+
+
+### Technologies and Frameworks
 
 1) JDK Version: Oracle OpenJDK 19.0.2
 2) Spring Boot Version: 3.0.5
