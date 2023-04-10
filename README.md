@@ -8,14 +8,14 @@ The goal of this program is to determine the frequency that words appear in  the
 ### Ticket Tracking Standards
 <p>For the purpose of planning, tracking and version control of work, we are using Jira and Github. The following standards need to be kept by when making any changes:</p>
 
-1) Any work needs a sized Jira ticket.
-2) Any work needs to be done in a dedicated branch in Github.
+1) Any work needs a sized Jira ticket. <br> Please see: https://heinrich-personal.atlassian.net/jira/software/projects/OA/boards/1
+2) Any work needs to be done in a dedicated branch in Github.  <br> Please see: https://github.com/HBurgers/word-count-assessment
 3) Branches in Github needs to be named according to the following rules
    1) type/ticketNumber description
       1) Type describes the type of work that needs to be done. Examples are feature and bugfix
       2) TicketNumber is the ticket number in Jira. For example, OA-1
       3) Description is the description of what is being done in that branch.
-   2) Example of a correctly named branches are: "feature/OA-1 Implement integration tests" and "bugfix/OA-3 Fix NullpointerException in controller"
+   2) Example of correctly named branches are: "feature/OA-1 Implement integration tests" and "bugfix/OA-3 Fix NullpointerException in controller"
 4) When creating a PR:
    1) Provide screenshots as proof of work, where possible
    2) Add a link to the ticket in the description
