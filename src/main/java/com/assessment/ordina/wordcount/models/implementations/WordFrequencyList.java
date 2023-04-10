@@ -8,6 +8,9 @@ import java.util.Collection;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
+/**
+ * @implNote This is a list extending ArrayList of WordFrequency. This was created to allow a custom implementation of the contains and indexOf methods.
+ */
 public class WordFrequencyList extends ArrayList<WordFrequency> {
 
     public WordFrequencyList() {
@@ -18,8 +21,13 @@ public class WordFrequencyList extends ArrayList<WordFrequency> {
         super(c);
     }
 
+    /**
+     * @param o The string to compare to.
+     * @return true if the list contains a WordFrequency object with a word matching the provided String.
+     * @implNote Checks if the current list contains a WordFrequency object with a word matching the provided String.
+     */
     public boolean contains(String o) {
-        if(StringUtils.isBlank(o)) {
+        if (StringUtils.isBlank(o)) {
             return false;
         }
 
@@ -33,6 +41,11 @@ public class WordFrequencyList extends ArrayList<WordFrequency> {
         return found.get();
     }
 
+    /**
+     * @param o The string to compare to WordFrequency words in the list.
+     * @return the index of the WordFrequency object in the list whose word matches the String provided.
+     * @implNote This method finds the index of the WordFrequency object in the list whose word matches the String provided.
+     */
     public int indexOf(String o) {
         if (o == null) {
             for (int i = 0; i < size(); i++) {

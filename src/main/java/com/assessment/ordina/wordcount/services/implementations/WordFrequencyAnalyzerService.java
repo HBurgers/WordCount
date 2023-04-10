@@ -20,6 +20,11 @@ public class WordFrequencyAnalyzerService implements WordFrequencyAnalyzer {
 
     private final String SPLIT_REGEX = "([^a-zA-Z])+";
 
+    /**
+     * @implNote This method calculates the frequency of the most frequent word in the text provided.
+     * @param text The text to consider.
+     * @return and int value representing the frequency of the most frequent word.
+     */
     @Override
     public int calculateHighestFrequency(final String text) {
         log.debug(String.format("Running calculateHighestFrequency with the following text: %s", text));
@@ -31,9 +36,15 @@ public class WordFrequencyAnalyzerService implements WordFrequencyAnalyzer {
             return 0;
         }
 
-        return calculateHighestFrequencyFromList(toSortedWordFrequencyList(text));
+        return returnFrequencyOfFirstElementOfList(toSortedWordFrequencyList(text));
     }
 
+    /**
+     * @implNote This method calculates the frequency of the word provided.
+     * @param text the text to consider.
+     * @param word the word whose frequency needs to be determined.
+     * @return and int value representing the frequency of the requested word.
+     */
     @Override
     public int calculateFrequencyForWord(final String text, String word) {
         log.debug(String.format("Running calculateFrequencyForWord with the text: %s and the word: %s", text, word));
@@ -47,11 +58,15 @@ public class WordFrequencyAnalyzerService implements WordFrequencyAnalyzer {
 
         List<WordFrequency> wordAsList = toSortedWordFrequencyList(word);
         if (wordAsList.isEmpty()) {
+            log.debug("Exiting and returning 0 since no word has been provided.");
+
             //Word consisted of non-alphabetic characters. Is thus same as blank.
             return 0;
         }
 
         if (wordAsList.size() > 1) {
+            log.debug("Exiting and returning 0 since more than one word has been provided.");
+
             //Word consists of more than one word. For now return as not found. Maybe add additional implementation for list of words.
             return 0;
         }
@@ -63,6 +78,12 @@ public class WordFrequencyAnalyzerService implements WordFrequencyAnalyzer {
         return frequencyList.contains(word) ? frequencyList.get(frequencyList.indexOf(word)).getFrequency() : 0;
     }
 
+    /**
+     * @implNote This method calculates n most frequent words in the provided.
+     * @param text the text to consider.
+     * @param n the number of most frequent words to return.
+     * @return an array of the most frequent WordFrequeny objects. This array is first sorted in a descending manner according to frequency and then alphabetically in an accessing manner according to word.
+     */
     @Override
     public WordFrequency[] calculateMostFrequentNWords(final String text, final int n) {
         log.debug(String.format("Running calculateMostFrequentNWords with the text: %s and the n value: %d", text, n));
@@ -77,8 +98,17 @@ public class WordFrequencyAnalyzerService implements WordFrequencyAnalyzer {
         return mapNElementsToWordFrequencyArray(toSortedWordFrequencyList(text), n);
     }
 
+    /**
+     * @implNote This method splits the provided text into a list of words and sorts them according to frequency and word.
+     * @param inputText the text to consider.
+     * @return a list of WordFrequeny objects. This list is first sorted in a descending manner according to frequency and then alphabetically in an accessing manner according to word.
+     */
     private List<WordFrequency> toSortedWordFrequencyList(String inputText) {
+        log.debug(String.format("Running toSortedWordFrequencyList with the text: %s", inputText));
+
         if (StringUtils.isBlank(inputText)) {
+            log.debug("The inputText provided is empty. Returning and empty array.");
+
             return new ArrayList<>();
         }
 
@@ -100,12 +130,27 @@ public class WordFrequencyAnalyzerService implements WordFrequencyAnalyzer {
                 .collect(Collectors.toList());
     }
 
-    private int calculateHighestFrequencyFromList(final List<WordFrequency> frequencyList) {
+    /**
+     * @implNote This method simply returns the frequency first element of the list, if it isn't empty.
+     * @param frequencyList The list to consider.
+     * @return The frequency of the first element in the list. It will return 0 if the list is empty.
+     */
+    private int returnFrequencyOfFirstElementOfList(final List<WordFrequency> frequencyList) {
         return frequencyList.isEmpty() ? 0 : frequencyList.get(0).getFrequency();
     }
 
+    /**
+     * @implNote This method converts a List of WordFrequency objects to an array of WordFrequency objects. This will only do it for the first n elements according to the n provided.
+     * @param wordFrequencyList The list to be converted.
+     * @param n The n value indicating how many elements should be converted.
+     * @return An array of WordFrequency objects containing n amount of objects.
+     */
     private WordFrequency[] mapNElementsToWordFrequencyArray(final List<WordFrequency> wordFrequencyList, final int n) {
+        log.debug(String.format("Running mapNElementsToWordFrequencyArray with a list of size %d and a n value of: %d", wordFrequencyList.size(), n));
+
         if (n >= wordFrequencyList.size()) {
+            log.debug("The n value provided is larger than the size of the list. Returning the entire list.");
+
             return wordFrequencyList.toArray(WordFrequency[]::new);
         }
 
