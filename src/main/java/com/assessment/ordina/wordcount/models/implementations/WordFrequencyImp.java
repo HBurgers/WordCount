@@ -3,8 +3,6 @@ package com.assessment.ordina.wordcount.models.implementations;
 import com.assessment.ordina.wordcount.models.WordFrequency;
 import lombok.Getter;
 
-import java.util.Objects;
-
 public class WordFrequencyImp implements WordFrequency {
 
     @Getter
@@ -19,11 +17,6 @@ public class WordFrequencyImp implements WordFrequency {
 
     public void incrementFrequency() {
         this.frequency++;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(word, frequency);
     }
 
     @Override

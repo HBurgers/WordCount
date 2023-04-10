@@ -1,6 +1,7 @@
 package com.assessment.ordina.wordcount.models.implementations;
 
 import com.assessment.ordina.wordcount.models.WordFrequency;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,6 +19,10 @@ public class WordFrequencyList extends ArrayList<WordFrequency> {
     }
 
     public boolean contains(String o) {
+        if(StringUtils.isBlank(o)) {
+            return false;
+        }
+
         AtomicBoolean found = new AtomicBoolean(false);
 
         this.forEach(wordFrequency -> {
