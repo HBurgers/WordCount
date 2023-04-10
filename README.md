@@ -8,14 +8,14 @@ The goal of this program is to determine the frequency that words appear in  the
 ### Ticket Tracking Standards
 <p>For the purpose of planning, tracking and version control of work, we are using Jira and Github. The following standards need to be kept by when making any changes:</p>
 
-1) Any work needs a sized Jira ticket.
-2) Any work needs to be done in a dedicated branch in Github.
+1) Any work needs a sized Jira ticket. <br> Please see: https://heinrich-personal.atlassian.net/jira/software/projects/OA/boards/1
+2) Any work needs to be done in a dedicated branch in Github.  <br> Please see: https://github.com/HBurgers/word-count-assessment
 3) Branches in Github needs to be named according to the following rules
    1) type/ticketNumber description
       1) Type describes the type of work that needs to be done. Examples are feature and bugfix
       2) TicketNumber is the ticket number in Jira. For example, OA-1
       3) Description is the description of what is being done in that branch.
-   2) Example of a correctly named branches are: "feature/OA-1 Implement integration tests" and "bugfix/OA-3 Fix NullpointerException in controller"
+   2) Example of correctly named branches are: "feature/OA-1 Implement integration tests" and "bugfix/OA-3 Fix NullpointerException in controller"
 4) When creating a PR:
    1) Provide screenshots as proof of work, where possible
    2) Add a link to the ticket in the description
@@ -51,14 +51,14 @@ In order to run this application from its jar follow the below steps
 
 ### Running the docker container
 
-<p>In order to run this application f rom its container follow the below steps<br>
-Not that it is required to have docker installed on your computer.</p>
+<p>In order to run this application from its container follow the below steps.<br>
+Note that it is required to have docker installed on your computer.</p>
 
 1) Navigate to the project root folder in a terminal.
 2) Run the following command: "mvn clean install"
 3) Then build the image by running: "docker build --tag=word-count:latest ."
 4) Lastly, run the following command to start up the container: "docker run -p8080:8080 word-count:latest"
-   1) Not that if port 8080 is in use in your system, you can change the port it uses on your computer by changing the first occurance of 8080 in the above command.
+   1) Note that if port 8080 is in use in your system, you can change the port it uses on your computer by changing the first occurance of 8080 in the above command.
 
 <p>After successfully starting the system, you can access all the endpoints under "localhost:8080", unless you specified a different port. </p> 
 
@@ -77,7 +77,7 @@ Please replace 8080 with your chosen port, TEXT with the text you would like to 
    1) This endpoint will return the frequency that the provided word occurs in the provided text.
    2) TEXT is the text that needs to be searched. 
    3) WORD is the word that needs to be searched for.
-   4) This endpoint will return a single integer value indicating the requested frequency.
+   4) This endpoint will return a single integer value indicating the requested word's frequency.
 3) localhost:8080/v1/word/nth/frequency?text=TEXT&n=N
    1) This endpoint determines and returns a list of the n'th most frequent words.
    2) TEXT is the text that needs to be searched.
@@ -88,23 +88,23 @@ Swagger Document containing detailed descriptions of each endpoint is located at
 Remember to change 8080 to your chosen port, if it has been changed.
 
 <p>Also note that a postman collection has been added to this project, located under: "src/test/resources/postman/WordFrequencyAssessment.postman_collection.json" <br>
-Note that this is only a basic collection containing three example. Take note that the variables for "hostName" and "port" default to "localhost" and "8080" respectively.</p>
+Note that this is only a basic collection containing three examples. Take note that the variables for "hostName" and "port" default to "localhost" and "8080" respectively.</p>
 
 ### Testing
 <p>The tests implemented in the system has been divided into two main categories:</p>
 
 1) Unit Tests
-2) Integration Tests
+2) Contract Integration Tests
 
 #### Unit Tests
 
 <p>There are a total of 40 unit tests in the system. They are located under "src/test/java/com/assessment/ordina/wordcount/unit". <br> 
 Since the system currently only consists of a single service and no database access, it wasn't needed to add many mocking. Thus, they were only written in JUnit 5.</p>
 
-#### Integration Tests
+#### Contract Integration Tests
 
 <p>
-This system has 10 integration tests that are ran via the controller. As stated under the "Unit Tests" section, the system only consists of a single service. There were thus no interaction between services to test. There was, however, interaction between the controller and the service to test.
+This system has 10 integration tests that test the system via the controller. As stated under the "Unit Tests" section, the system only consists of a single service. There are thus no interactions between services to test. There is, however, interaction between the controller and the service to test.
 </p>
 <p>Integration tests in the system were implemented as Contract tests. In these tests, a contract is defined for each endpoint specifying the endpoint, input and expected results.
 Tests are then generated from provided contracts.
@@ -113,8 +113,12 @@ Tests are then generated from provided contracts.
 
 #### Code Coverage
 
-<p>For this system, I used Jacoco for code coverage. After tests have been run, a code coverage report is generated by Jacoco. This report is located at: "target/site/jacoco/index.html"</p>
+<p>For this system, Jacoco was used for code coverage. After tests have been run, a code coverage report is generated by Jacoco. This report is located at: "target/site/jacoco/index.html"</p>
 <p>Current code coverage as on 10/04/2023 is 97% with a 100% cover for both service and model implementations.</p>
+
+### Possible Future Implementation
+
+<p>In the future we can extend the system with the ability to accept a file instead of just text and perform the existing implementations on it.</p>
 
 
 
