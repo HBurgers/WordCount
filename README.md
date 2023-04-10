@@ -22,6 +22,7 @@ The goal of this program is to determine the frequency that words appear in  the
    3) You will need a review and approval from a code owner before you can merge any changes.
 5) After creating a PR, place a link to the PR in the related ticket in Jira.
 6) Add screenshots as proof of work in the Jira ticket.
+7) After merging a PR, delete the branch if it won't be used anymore. Also move the ticket to "Done" if you meet the definition of done.
 
 
 ### Technologies and Frameworks
@@ -85,6 +86,9 @@ Please replace 8080 with your chosen port, TEXT with the text you would like to 
 
 Swagger Document containing detailed descriptions of each endpoint is located at: http://localhost:8080/swagger-ui.html <br>
 Remember to change 8080 to your chosen port, if it has been changed.
+
+<p>Also note that a postman collection has been added to this project, located under: "src/test/resources/postman/WordFrequencyAssessment.postman_collection.json" <br>
+Note that this is only a basic collection containing three example. Take note that the variables for "hostName" and "port" default to "localhost" and "8080" respectively.</p>
 
 ### Testing
 <p>The tests implemented in the system has been divided into two main categories:</p>
